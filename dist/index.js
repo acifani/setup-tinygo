@@ -50,8 +50,7 @@ async function addTinyGoToPath(installDir) {
     core.info(`Adding ${installDir}/tinygo/bin to PATH`);
     core.addPath(path_1.default.join(installDir, 'tinygo', 'bin'));
     const found = await io.findInPath('tinygo');
-    core.info(`Found in path: ${found}`);
-    printCommand(`ls ${installDir}`);
+    core.debug(`Found in path: ${found}`);
     const tinygo = await io.which('tinygo');
     printCommand(`${tinygo} version`);
     printCommand(`${tinygo} env`);
@@ -97,13 +96,13 @@ const toolName = 'tinygo';
 const arch = (0, sys_1.getArch)();
 const platform = (0, sys_1.getPlatform)();
 async function install(version) {
-    core.info(`Checking cache for tinygo v${version} ${arch}`);
+    core.debug(`Checking cache for tinygo v${version} ${arch}`);
     const cachedDirectory = tool.find(toolName, version, arch);
     if (cachedDirectory) {
         // tool version found in cache
         return cachedDirectory;
     }
-    core.info(`Attempting to download tinygo v${version} for ${platform} ${arch}`);
+    core.debug(`Downloading tinygo v${version} for ${platform} ${arch}`);
     try {
         const downloadPath = await download(version);
         const extractedPath = await extractArchive(downloadPath);
@@ -118,9 +117,9 @@ exports.install = install;
 async function download(version) {
     const extension = platform === 'windows' ? 'zip' : 'tar.gz';
     const downloadURL = `https://github.com/tinygo-org/tinygo/releases/download/v${version}/tinygo${version}.${platform}-${arch}.${extension}`;
-    core.info(`Downloading from ${downloadURL}`);
+    core.debug(`Downloading from ${downloadURL}`);
     const downloadPath = await tool.downloadTool(downloadURL);
-    core.info(`Downloaded tinygo release to ${downloadPath}`);
+    core.debug(`Downloaded tinygo release to ${downloadPath}`);
     return downloadPath;
 }
 async function extractArchive(downloadPath) {
