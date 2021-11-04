@@ -7,16 +7,14 @@ const arch = getArch();
 const platform = getPlatform();
 
 export async function install(version: string): Promise<string> {
-  core.info(`Checking cache for tinygo v${version} ${arch}`);
+  core.debug(`Checking cache for tinygo v${version} ${arch}`);
   const cachedDirectory = tool.find(toolName, version, arch);
   if (cachedDirectory) {
     // tool version found in cache
     return cachedDirectory;
   }
 
-  core.info(
-    `Attempting to download tinygo v${version} for ${platform} ${arch}`,
-  );
+  core.debug(`Downloading tinygo v${version} for ${platform} ${arch}`);
   try {
     const downloadPath = await download(version);
     const extractedPath = await extractArchive(downloadPath);
@@ -36,9 +34,9 @@ export async function install(version: string): Promise<string> {
 async function download(version: string): Promise<string> {
   const extension = platform === 'windows' ? 'zip' : 'tar.gz';
   const downloadURL = `https://github.com/tinygo-org/tinygo/releases/download/v${version}/tinygo${version}.${platform}-${arch}.${extension}`;
-  core.info(`Downloading from ${downloadURL}`);
+  core.debug(`Downloading from ${downloadURL}`);
   const downloadPath = await tool.downloadTool(downloadURL);
-  core.info(`Downloaded tinygo release to ${downloadPath}`);
+  core.debug(`Downloaded tinygo release to ${downloadPath}`);
   return downloadPath;
 }
 
