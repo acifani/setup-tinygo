@@ -47,8 +47,8 @@ async function setup() {
     }
 }
 async function addTinyGoToPath(installDir) {
-    core.info(`Adding ${installDir}/bin to PATH`);
-    core.addPath(path_1.default.join(installDir, 'bin'));
+    core.info(`Adding ${installDir}/tinygo/bin to PATH`);
+    core.addPath(path_1.default.join(installDir, 'tinygo', 'bin'));
     const found = await io.findInPath('tinygo');
     core.info(`Found in path: ${found}`);
     printCommand(`ls ${installDir}`);
