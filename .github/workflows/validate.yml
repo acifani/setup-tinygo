@@ -1,0 +1,25 @@
+name: Validate
+
+on: [push, pull_request]
+
+jobs:
+  verify:
+    name: Verify setup
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        tinygo: [0.18.0, 0.19.0, 0.20.0]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+
+      - name: setup-tinygo ${{ matrix.tinygo }}
+        uses: ./
+        with:
+          tinygo-version: ${{ matrix.tinygo }}
+
+      - name: Verify version
+        run: check-version.sh ${{ matrix.tinygo }}
+        shell: bash

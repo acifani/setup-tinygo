@@ -1,0 +1,13 @@
+name: 'Setup TinyGo'
+description: 'Set up a specific version of TinyGo and add it to the PATH'
+author: acifani
+branding:
+  icon: 'play'
+  color: 'blue'
+inputs:
+  tinygo-version:
+    description: 'The exact TinyGo version to download and use.'
+    default: 0.20.0
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
