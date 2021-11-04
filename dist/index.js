@@ -6,22 +6,41 @@
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core_1 = __importDefault(__nccwpck_require__(186));
+const core = __importStar(__nccwpck_require__(186));
 const path_1 = __importDefault(__nccwpck_require__(622));
 const install_1 = __nccwpck_require__(39);
 setup();
 async function setup() {
     try {
-        const version = core_1.default.getInput('tinygo-version');
+        const version = core.getInput('tinygo-version');
         const installDir = await (0, install_1.install)(version);
-        core_1.default.addPath(path_1.default.join(installDir, 'bin'));
+        core.addPath(path_1.default.join(installDir, 'bin'));
     }
     catch (error) {
-        core_1.default.setFailed(error.message);
+        core.setFailed(error.message);
     }
 }
 
@@ -33,28 +52,44 @@ async function setup() {
 
 "use strict";
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.install = void 0;
-const tool_cache_1 = __importDefault(__nccwpck_require__(784));
-const core_1 = __importDefault(__nccwpck_require__(186));
+const tool = __importStar(__nccwpck_require__(784));
+const core = __importStar(__nccwpck_require__(186));
 const sys_1 = __nccwpck_require__(63);
 const toolName = 'tinygo';
 const arch = (0, sys_1.getArch)();
 const platform = (0, sys_1.getPlatform)();
 async function install(version) {
-    const cachedDirectory = tool_cache_1.default.find(toolName, version, arch);
+    const cachedDirectory = tool.find(toolName, version, arch);
     if (cachedDirectory) {
         // tool version found in cache
         return cachedDirectory;
     }
-    core_1.default.debug(`Attempting to download tinygo v${version} for ${platform} ${arch}`);
+    core.debug(`Attempting to download tinygo v${version} for ${platform} ${arch}`);
     try {
         const downloadPath = await download(version);
         const extractedPath = await extractArchive(downloadPath);
-        const cachedPath = await tool_cache_1.default.cacheDir(extractedPath, toolName, version, arch);
+        const cachedPath = await tool.cacheDir(extractedPath, toolName, version, arch);
         return cachedPath;
     }
     catch (error) {
@@ -64,16 +99,16 @@ async function install(version) {
 exports.install = install;
 async function download(version) {
     const extension = platform === 'windows' ? 'zip' : 'tar.gz';
-    const downloadPath = await tool_cache_1.default.downloadTool(`https://github.com/tinygo-org/tinygo/releases/download/v${version}/tinygo${version}.${platform}-${arch}.${extension}`);
+    const downloadPath = await tool.downloadTool(`https://github.com/tinygo-org/tinygo/releases/download/v${version}/tinygo${version}.${platform}-${arch}.${extension}`);
     return downloadPath;
 }
 async function extractArchive(downloadPath) {
     let extractedPath = '';
     if (platform === 'windows') {
-        extractedPath = await tool_cache_1.default.extractZip(downloadPath);
+        extractedPath = await tool.extractZip(downloadPath);
     }
     else {
-        extractedPath = await tool_cache_1.default.extractTar(downloadPath);
+        extractedPath = await tool.extractTar(downloadPath);
     }
     return extractedPath;
 }

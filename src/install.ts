@@ -1,5 +1,5 @@
-import tool from '@actions/tool-cache';
-import core from '@actions/core';
+import * as tool from '@actions/tool-cache';
+import * as core from '@actions/core';
 import { getArch, getPlatform } from './sys';
 
 const toolName = 'tinygo';
