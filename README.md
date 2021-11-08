@@ -26,7 +26,7 @@ jobs:
     strategy:
       matrix:
         tinygo: ['0.19', '0.20']
-    name: TinyGo ${{ matrix.go }}
+    name: TinyGo ${{ matrix.tinygo }}
     steps:
       - uses: actions/checkout@v2
       - uses: acifani/setup-tinygo@v1
