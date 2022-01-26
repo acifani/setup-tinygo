@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tinygo: ['0.19', '0.20']
+        tinygo: ['0.19.0', '0.20.0']
     name: TinyGo ${{ matrix.tinygo }}
     steps:
       - uses: actions/checkout@v2
