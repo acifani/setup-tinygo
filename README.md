@@ -14,7 +14,7 @@ steps:
   - uses: actions/checkout@v2
   - uses: acifani/setup-tinygo@v1
     with:
-      tinygo-version: 0.20.0
+      tinygo-version: 0.25.0
 ```
 
 ### With matrix expansion
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tinygo: ['0.19.0', '0.20.0']
+        tinygo: ['0.24.0', '0.25.0']
     name: TinyGo ${{ matrix.tinygo }}
     steps:
       - uses: actions/checkout@v2
@@ -45,8 +45,8 @@ steps:
   - uses: actions/checkout@v2
   - uses: actions/setup-go@v2
     with:
-      go-version: 1.17
+      go-version: 1.19
   - uses: acifani/setup-tinygo@v1
     with:
-      tinygo-version: 0.20.0
+      tinygo-version: 0.25.0
 ```
