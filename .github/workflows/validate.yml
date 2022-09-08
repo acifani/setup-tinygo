@@ -22,3 +22,7 @@ jobs:
       - name: Verify version
         run: ./check-version.sh ${{ matrix.tinygo }}
         shell: bash
+
+      - name: Test build
+        run: ./test-build.sh
+        shell: bash
