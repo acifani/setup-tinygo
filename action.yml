@@ -9,5 +9,5 @@ inputs:
     description: 'The exact TinyGo version to download and use.'
     default: 0.25.0
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
