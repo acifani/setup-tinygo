@@ -18,6 +18,7 @@ jobs:
         uses: ./
         with:
           tinygo-version: ${{ matrix.tinygo }}
+          binaryen-version: '110'
 
       - name: Verify version
         run: ./check-version.sh ${{ matrix.tinygo }}
