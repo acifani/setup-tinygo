@@ -1,6 +1,120 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 3754:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.installBinaryen = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+const io = __importStar(__nccwpck_require__(7436));
+const tool = __importStar(__nccwpck_require__(7784));
+const path_1 = __importDefault(__nccwpck_require__(5622));
+const utils_1 = __nccwpck_require__(918);
+const sys_1 = __nccwpck_require__(7327);
+const toolName = 'binaryen';
+const arch = (0, sys_1.getArch)();
+const platform = (0, sys_1.getPlatform)();
+async function installBinaryen(version) {
+    const installPath = await extract(version);
+    return addToPath(installPath, version);
+}
+exports.installBinaryen = installBinaryen;
+async function extract(version) {
+    core.debug(`Checking cache for binaryen v${version} ${arch}`);
+    const cachedDirectory = tool.find(toolName, version, arch);
+    if (cachedDirectory) {
+        // tool version found in cache
+        return cachedDirectory;
+    }
+    core.debug(`Downloading binaryen v${version} for ${platform} ${arch}`);
+    try {
+        const downloadPath = await download(version);
+        const extractedPath = await extractArchive(downloadPath);
+        const cachedPath = await tool.cacheDir(extractedPath, toolName, version, arch);
+        return cachedPath;
+    }
+    catch (error) {
+        throw new Error(`Failed to download version ${version}: ${error}`);
+    }
+}
+async function download(version) {
+    const downloadURL = `https://github.com/WebAssembly/binaryen/releases/download/version_${version}/binaryen-version_${version}-${arch}-${platform}.tar.gz`;
+    core.debug(`Downloading from ${downloadURL}`);
+    const downloadPath = await tool.downloadTool(downloadURL);
+    core.debug(`Downloaded binaryen release to ${downloadPath}`);
+    return downloadPath;
+}
+async function extractArchive(downloadPath) {
+    return tool.extractTar(downloadPath);
+}
+async function addToPath(installDir, version) {
+    const binaryen = `binaryen-version_${version}`;
+    core.info(`Adding ${installDir}/${binaryen}/bin to PATH`);
+    core.addPath(path_1.default.join(installDir, binaryen, 'bin'));
+    const found = await io.findInPath('wasm-opt');
+    core.debug(`Found in path: ${found}`);
+    const wasmopt = await io.which('wasm-opt');
+    (0, utils_1.printCommand)(`${wasmopt} --version`);
+}
+
+
+/***/ }),
+
+/***/ 7327:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getArch = exports.getPlatform = void 0;
+const os_1 = __importDefault(__nccwpck_require__(2087));
+const platformMap = {
+    win32: 'windows',
+    darwin: 'macos',
+};
+function getPlatform() {
+    var _a;
+    const platform = os_1.default.platform();
+    return (_a = platformMap[platform]) !== null && _a !== void 0 ? _a : platform;
+}
+exports.getPlatform = getPlatform;
+function getArch() {
+    const arch = os_1.default.arch();
+    return arch === 'x64' ? 'x86_64' : arch;
+}
+exports.getArch = getArch;
+
+
+/***/ }),
+
 /***/ 4822:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -25,45 +139,29 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const io = __importStar(__nccwpck_require__(7351));
-const child_process_1 = __importDefault(__nccwpck_require__(3129));
 const core = __importStar(__nccwpck_require__(2186));
-const path_1 = __importDefault(__nccwpck_require__(5622));
-const install_1 = __nccwpck_require__(9039);
+const install_1 = __nccwpck_require__(3754);
+const install_2 = __nccwpck_require__(9718);
 setup();
 async function setup() {
     try {
-        const version = core.getInput('tinygo-version');
-        core.info(`Setting up tinygo version ${version}`);
-        const installDir = await (0, install_1.install)(version);
-        await addTinyGoToPath(installDir);
+        const tinyGoVersion = core.getInput('tinygo-version');
+        core.info(`Setting up tinygo version ${tinyGoVersion}`);
+        const binaryenVersion = core.getInput('binaryen-version');
+        core.info(`Setting up binaryen version ${binaryenVersion}`);
+        await (0, install_2.installTinyGo)(tinyGoVersion);
+        await (0, install_1.installBinaryen)(binaryenVersion);
     }
     catch (error) {
         core.setFailed(error.message);
     }
 }
-async function addTinyGoToPath(installDir) {
-    core.info(`Adding ${installDir}/tinygo/bin to PATH`);
-    core.addPath(path_1.default.join(installDir, 'tinygo', 'bin'));
-    const found = await io.findInPath('tinygo');
-    core.debug(`Found in path: ${found}`);
-    const tinygo = await io.which('tinygo');
-    printCommand(`${tinygo} version`);
-    printCommand(`${tinygo} env`);
-}
-function printCommand(command) {
-    const output = child_process_1.default.execSync(command).toString();
-    core.info(output);
-}
 
 
 /***/ }),
 
-/***/ 9039:
+/***/ 9718:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -87,15 +185,26 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.install = void 0;
-const tool = __importStar(__nccwpck_require__(7784));
+exports.installTinyGo = void 0;
 const core = __importStar(__nccwpck_require__(2186));
-const sys_1 = __nccwpck_require__(2063);
+const io = __importStar(__nccwpck_require__(7436));
+const tool = __importStar(__nccwpck_require__(7784));
+const path_1 = __importDefault(__nccwpck_require__(5622));
+const utils_1 = __nccwpck_require__(918);
+const sys_1 = __nccwpck_require__(9106);
 const toolName = 'tinygo';
 const arch = (0, sys_1.getArch)();
 const platform = (0, sys_1.getPlatform)();
-async function install(version) {
+async function installTinyGo(version) {
+    const installPath = await extract(version);
+    return addToPath(installPath);
+}
+exports.installTinyGo = installTinyGo;
+async function extract(version) {
     core.debug(`Checking cache for tinygo v${version} ${arch}`);
     const cachedDirectory = tool.find(toolName, version, arch);
     if (cachedDirectory) {
@@ -113,7 +222,6 @@ async function install(version) {
         throw new Error(`Failed to download version ${version}: ${error}`);
     }
 }
-exports.install = install;
 async function download(version) {
     const extension = platform === 'windows' ? 'zip' : 'tar.gz';
     const downloadURL = `https://github.com/tinygo-org/tinygo/releases/download/v${version}/tinygo${version}.${platform}-${arch}.${extension}`;
@@ -132,11 +240,20 @@ async function extractArchive(downloadPath) {
     }
     return extractedPath;
 }
+async function addToPath(installDir) {
+    core.info(`Adding ${installDir}/tinygo/bin to PATH`);
+    core.addPath(path_1.default.join(installDir, 'tinygo', 'bin'));
+    const found = await io.findInPath('tinygo');
+    core.debug(`Found in path: ${found}`);
+    const tinygo = await io.which('tinygo');
+    (0, utils_1.printCommand)(`${tinygo} version`);
+    (0, utils_1.printCommand)(`${tinygo} env`);
+}
 
 
 /***/ }),
 
-/***/ 2063:
+/***/ 9106:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -161,7 +278,47 @@ exports.getArch = getArch;
 
 /***/ }),
 
-/***/ 5241:
+/***/ 918:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.printCommand = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+const child_process_1 = __importDefault(__nccwpck_require__(3129));
+function printCommand(command) {
+    const output = child_process_1.default.execSync(command).toString();
+    core.info(output);
+}
+exports.printCommand = printCommand;
+
+
+/***/ }),
+
+/***/ 7351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -295,7 +452,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
-const command_1 = __nccwpck_require__(5241);
+const command_1 = __nccwpck_require__(7351);
 const file_command_1 = __nccwpck_require__(717);
 const utils_1 = __nccwpck_require__(5278);
 const os = __importStar(__nccwpck_require__(2087));
@@ -2702,7 +2859,7 @@ const os = __importStar(__nccwpck_require__(2087));
 const events = __importStar(__nccwpck_require__(8614));
 const child = __importStar(__nccwpck_require__(3129));
 const path = __importStar(__nccwpck_require__(5622));
-const io = __importStar(__nccwpck_require__(7351));
+const io = __importStar(__nccwpck_require__(7436));
 const ioUtil = __importStar(__nccwpck_require__(1962));
 const timers_1 = __nccwpck_require__(8213);
 /* eslint-disable @typescript-eslint/unbound-method */
@@ -4082,7 +4239,7 @@ exports.getCmdPath = getCmdPath;
 
 /***/ }),
 
-/***/ 7351:
+/***/ 7436:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -4694,7 +4851,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.evaluateVersions = exports.isExplicitVersion = exports.findFromManifest = exports.getManifestFromRepo = exports.findAllVersions = exports.find = exports.cacheFile = exports.cacheDir = exports.extractZip = exports.extractXar = exports.extractTar = exports.extract7z = exports.downloadTool = exports.HTTPError = void 0;
 const core = __importStar(__nccwpck_require__(2186));
-const io = __importStar(__nccwpck_require__(7351));
+const io = __importStar(__nccwpck_require__(7436));
 const fs = __importStar(__nccwpck_require__(5747));
 const mm = __importStar(__nccwpck_require__(2473));
 const os = __importStar(__nccwpck_require__(2087));

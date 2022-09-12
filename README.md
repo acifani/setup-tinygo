@@ -50,3 +50,18 @@ steps:
     with:
       tinygo-version: 0.25.0
 ```
+
+### With custom Binaryen version
+
+This action will install [Binaryen](https://github.com/WebAssembly/binaryen)
+which is needed for building WASM on Windows and MacOS.
+You can customize the version with the dedicated input value
+
+```yaml
+steps:
+  - uses: actions/checkout@v2
+  - uses: acifani/setup-tinygo@v1
+    with:
+      tinygo-version: 0.25.0
+      binaryen-version: '110'
+```

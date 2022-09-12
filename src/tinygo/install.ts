@@ -1,12 +1,20 @@
-import * as tool from '@actions/tool-cache';
 import * as core from '@actions/core';
+import * as io from '@actions/io';
+import * as tool from '@actions/tool-cache';
+import path from 'path';
+import { printCommand } from '../utils';
 import { getArch, getPlatform } from './sys';
 
 const toolName = 'tinygo';
 const arch = getArch();
 const platform = getPlatform();
 
-export async function install(version: string): Promise<string> {
+export async function installTinyGo(version: string): Promise<void> {
+  const installPath = await extract(version);
+  return addToPath(installPath);
+}
+
+async function extract(version: string): Promise<string> {
   core.debug(`Checking cache for tinygo v${version} ${arch}`);
   const cachedDirectory = tool.find(toolName, version, arch);
   if (cachedDirectory) {
@@ -49,4 +57,14 @@ async function extractArchive(downloadPath: string): Promise<string> {
   }
 
   return extractedPath;
+}
+
+async function addToPath(installDir: string) {
+  core.info(`Adding ${installDir}/tinygo/bin to PATH`);
+  core.addPath(path.join(installDir, 'tinygo', 'bin'));
+  const found = await io.findInPath('tinygo');
+  core.debug(`Found in path: ${found}`);
+  const tinygo = await io.which('tinygo');
+  printCommand(`${tinygo} version`);
+  printCommand(`${tinygo} env`);
 }

@@ -1,34 +1,19 @@
-import * as io from '@actions/io';
-import cp from 'child_process';
 import * as core from '@actions/core';
-import path from 'path';
-import { install } from './install';
+import { installBinaryen } from './binaryen/install';
+import { installTinyGo } from './tinygo/install';
 
 setup();
 
 async function setup() {
   try {
-    const version = core.getInput('tinygo-version');
-    core.info(`Setting up tinygo version ${version}`);
+    const tinyGoVersion = core.getInput('tinygo-version');
+    core.info(`Setting up tinygo version ${tinyGoVersion}`);
+    const binaryenVersion = core.getInput('binaryen-version');
+    core.info(`Setting up binaryen version ${binaryenVersion}`);
 
-    const installDir = await install(version);
-    await addTinyGoToPath(installDir);
+    await installTinyGo(tinyGoVersion);
+    await installBinaryen(binaryenVersion);
   } catch (error: any) {
     core.setFailed(error.message);
   }
-}
-
-async function addTinyGoToPath(installDir: string) {
-  core.info(`Adding ${installDir}/tinygo/bin to PATH`);
-  core.addPath(path.join(installDir, 'tinygo', 'bin'));
-  const found = await io.findInPath('tinygo');
-  core.debug(`Found in path: ${found}`);
-  const tinygo = await io.which('tinygo');
-  printCommand(`${tinygo} version`);
-  printCommand(`${tinygo} env`);
-}
-
-function printCommand(command: string) {
-  const output = cp.execSync(command).toString();
-  core.info(output);
 }

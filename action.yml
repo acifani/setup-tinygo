@@ -8,6 +8,9 @@ inputs:
   tinygo-version:
     description: 'The exact TinyGo version to download and use.'
     default: 0.25.0
+  binaryen-version:
+    description: 'The exact Binaryen version to download and use.'
+    default: '110'
 runs:
   using: 'node16'
   main: 'dist/index.js'
