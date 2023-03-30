@@ -105,8 +105,9 @@ const platformMap = {
     darwin: 'macos',
 };
 function getPlatform() {
+    var _a;
     const platform = os_1.default.platform();
-    return platformMap[platform] ?? platform;
+    return (_a = platformMap[platform]) !== null && _a !== void 0 ? _a : platform;
 }
 exports.getPlatform = getPlatform;
 function getArch() {
