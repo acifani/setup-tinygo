@@ -33,7 +33,9 @@ jobs:
 
   no-binaryen:
     name: No Binaryen
-    runs-on: ubuntu-latest
+    # using macos because ubuntu has binaryen pre-installed
+    # TO-DO: implement a stable testing method
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
