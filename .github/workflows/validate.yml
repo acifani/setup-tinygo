@@ -10,9 +10,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
-        tinygo: ['0.25.0', '0.26.0', '0.27.0']
+        tinygo: ['0.26.0', '0.27.0']
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '^1.18'
 
       - name: setup-tinygo ${{ matrix.tinygo }}
         uses: ./
