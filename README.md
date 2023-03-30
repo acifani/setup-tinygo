@@ -65,3 +65,16 @@ steps:
       tinygo-version: '0.27.0'
       binaryen-version: '110'
 ```
+
+### Without Binaryen
+
+If you don't need Binaryen, you can omit the installation
+
+```yaml
+steps:
+  - uses: actions/checkout@v2
+  - uses: acifani/setup-tinygo@v1
+    with:
+      tinygo-version: '0.27.0'
+      install-binaryen: 'false'
+```
