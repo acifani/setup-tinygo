@@ -156,10 +156,16 @@ async function setup() {
     try {
         const tinyGoVersion = core.getInput('tinygo-version');
         core.info(`Setting up tinygo version ${tinyGoVersion}`);
-        const binaryenVersion = core.getInput('binaryen-version');
-        core.info(`Setting up binaryen version ${binaryenVersion}`);
         await (0, install_2.installTinyGo)(tinyGoVersion);
-        await (0, install_1.installBinaryen)(binaryenVersion);
+        const shouldInstallBinaryen = core.getInput('install-binaryen');
+        if (shouldInstallBinaryen === 'false') {
+            core.info('Skipping binaryen installation');
+        }
+        else {
+            const binaryenVersion = core.getInput('binaryen-version');
+            core.info(`Setting up binaryen version ${binaryenVersion}`);
+            await (0, install_1.installBinaryen)(binaryenVersion);
+        }
     }
     catch (error) {
         core.setFailed(error.message);

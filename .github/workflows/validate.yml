@@ -30,3 +30,22 @@ jobs:
       - name: Test build
         run: ./test-build.sh
         shell: bash
+
+  no-binaryen:
+    name: No Binaryen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '1.19'
+
+      - name: setup-tinygo
+        uses: ./
+        with:
+          tinygo-version: '0.27.0'
+          install-binaryen: 'false'
+
+      - name: Binaryen not installed
+        run: ./test-binaryen.sh
+        shell: bash
