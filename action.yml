@@ -7,13 +7,13 @@ branding:
 inputs:
   tinygo-version:
     description: 'The exact TinyGo version to download and use.'
-    default: '0.25.0'
+    default: '0.30.0'
   install-binaryen:
     description: 'Whether you want to install Binaryen or not.'
     default: 'true'
   binaryen-version:
     description: 'The exact Binaryen version to download and use.'
-    default: '110'
+    default: '116'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'

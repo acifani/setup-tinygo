@@ -15,7 +15,7 @@ jobs:
         os: [macos-latest, windows-latest, ubuntu-latest]
         tinygo: ['0.29.0', '0.30.0']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-go@v4
         with:
           go-version: '1.21'
@@ -24,7 +24,7 @@ jobs:
         uses: ./
         with:
           tinygo-version: ${{ matrix.tinygo }}
-          binaryen-version: '110'
+          binaryen-version: '116'
 
       - name: Verify version
         run: ./check-version.sh ${{ matrix.tinygo }}
@@ -40,15 +40,15 @@ jobs:
     # TO-DO: implement a stable testing method
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-go@v4
         with:
-          go-version: '1.19'
+          go-version: '1.21'
 
       - name: setup-tinygo
         uses: ./
         with:
-          tinygo-version: '0.27.0'
+          tinygo-version: '0.30.0'
           install-binaryen: 'false'
 
       - name: Binaryen not installed
