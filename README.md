@@ -12,9 +12,9 @@ This actions sets up a TinyGo environment for GitHub Actions.
 ```yaml
 steps:
   - uses: actions/checkout@v2
-  - uses: acifani/setup-tinygo@v1
+  - uses: acifani/setup-tinygo@v2
     with:
-      tinygo-version: '0.27.0'
+      tinygo-version: '0.30.0'
 ```
 
 ### With matrix expansion
@@ -25,11 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tinygo: ['0.26.0', '0.27.0']
+        tinygo: ['0.29.0', '0.30.0']
     name: TinyGo ${{ matrix.tinygo }}
     steps:
       - uses: actions/checkout@v2
-      - uses: acifani/setup-tinygo@v1
+      - uses: acifani/setup-tinygo@v2
         with:
           tinygo-version: ${{ matrix.tinygo }}
 ```
@@ -45,10 +45,10 @@ steps:
   - uses: actions/checkout@v2
   - uses: actions/setup-go@v2
     with:
-      go-version: 1.19
-  - uses: acifani/setup-tinygo@v1
+      go-version: 1.21
+  - uses: acifani/setup-tinygo@v2
     with:
-      tinygo-version: '0.27.0'
+      tinygo-version: '0.30.0'
 ```
 
 ### With custom Binaryen version
@@ -60,10 +60,10 @@ You can customize the version with the dedicated input value
 ```yaml
 steps:
   - uses: actions/checkout@v2
-  - uses: acifani/setup-tinygo@v1
+  - uses: acifani/setup-tinygo@v2
     with:
-      tinygo-version: '0.27.0'
-      binaryen-version: '110'
+      tinygo-version: '0.30.0'
+      binaryen-version: '116'
 ```
 
 ### Without Binaryen
@@ -73,8 +73,8 @@ If you don't need Binaryen, you can omit the installation
 ```yaml
 steps:
   - uses: actions/checkout@v2
-  - uses: acifani/setup-tinygo@v1
+  - uses: acifani/setup-tinygo@v2
     with:
-      tinygo-version: '0.27.0'
+      tinygo-version: '0.30.0'
       install-binaryen: 'false'
 ```
