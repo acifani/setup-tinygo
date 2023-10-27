@@ -1,6 +1,9 @@
 name: Validate
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
 
 jobs:
   verify:
@@ -10,12 +13,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
-        tinygo: ['0.26.0', '0.27.0']
+        tinygo: ['0.29.0', '0.30.0']
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
-          go-version: '1.19'
+          go-version: '1.21'
 
       - name: setup-tinygo ${{ matrix.tinygo }}
         uses: ./
