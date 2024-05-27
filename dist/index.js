@@ -153,9 +153,15 @@ const install_2 = __nccwpck_require__(9718);
 setup();
 async function setup() {
     try {
-        const tinyGoVersion = core.getInput('tinygo-version');
-        core.info(`Setting up tinygo version ${tinyGoVersion}`);
-        await (0, install_2.installTinyGo)(tinyGoVersion);
+        const shouldInstallTinyGo = core.getInput('install-tinygo');
+        if (shouldInstallTinyGo === 'false') {
+            core.info('Skipping TinyGo installation');
+        }
+        else {
+            const tinyGoVersion = core.getInput('tinygo-version');
+            core.info(`Setting up tinygo version ${tinyGoVersion}`);
+            await (0, install_2.installTinyGo)(tinyGoVersion);
+        }
         const shouldInstallBinaryen = core.getInput('install-binaryen');
         if (shouldInstallBinaryen === 'false') {
             core.info('Skipping binaryen installation');

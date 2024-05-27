@@ -6,9 +6,14 @@ setup();
 
 async function setup() {
   try {
-    const tinyGoVersion = core.getInput('tinygo-version');
-    core.info(`Setting up tinygo version ${tinyGoVersion}`);
-    await installTinyGo(tinyGoVersion);
+    const shouldInstallTinyGo = core.getInput('install-tinygo');
+    if (shouldInstallTinyGo === 'false') {
+      core.info('Skipping TinyGo installation');
+    } else {
+      const tinyGoVersion = core.getInput('tinygo-version');
+      core.info(`Setting up tinygo version ${tinyGoVersion}`);
+      await installTinyGo(tinyGoVersion);
+    }
 
     const shouldInstallBinaryen = core.getInput('install-binaryen');
     if (shouldInstallBinaryen === 'false') {

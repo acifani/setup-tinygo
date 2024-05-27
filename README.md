@@ -66,6 +66,18 @@ steps:
       binaryen-version: '116'
 ```
 
+### Without TinyGo
+
+If you don't need TinyGo, you can omit the installation
+
+```yaml
+steps:
+  - uses: actions/checkout@v2
+  - uses: acifani/setup-tinygo@v2
+    with:
+      install-tinygo: 'false'
+```
+
 ### Without Binaryen
 
 If you don't need Binaryen, you can omit the installation

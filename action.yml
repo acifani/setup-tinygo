@@ -5,6 +5,9 @@ branding:
   icon: 'play'
   color: 'blue'
 inputs:
+  install-tinygo:
+    description: 'Whether you want to install TinyGo or not.'
+    default: 'true'
   tinygo-version:
     description: 'The exact TinyGo version to download and use.'
     default: '0.30.0'
