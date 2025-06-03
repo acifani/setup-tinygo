@@ -51,8 +51,8 @@ const path_1 = __importDefault(__nccwpck_require__(928));
 const utils_1 = __nccwpck_require__(277);
 const sys_1 = __nccwpck_require__(774);
 const toolName = 'binaryen';
-const arch = (0, sys_1.getArch)();
 const platform = (0, sys_1.getPlatform)();
+const arch = (0, sys_1.getArch)(platform);
 async function installBinaryen(version) {
     const installPath = await extract(version);
     return addToPath(installPath, version);
@@ -118,9 +118,16 @@ function getPlatform() {
     const platform = os_1.default.platform();
     return platformMap[platform] ?? platform;
 }
-function getArch() {
+function getArch(platform) {
     const arch = os_1.default.arch();
-    return arch === 'x64' ? 'x86_64' : arch;
+    switch (arch) {
+        case 'arm64':
+            return platform === 'linux' ? 'aarch64' : 'arm64';
+        case 'x64':
+            return 'x86_64';
+        default:
+            return arch;
+    }
 }
 
 

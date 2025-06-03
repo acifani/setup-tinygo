@@ -12,19 +12,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
-        tinygo: ['0.33.0', '0.34.0', '0.35.0']
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - windows-latest
+          # - windows-11-arm - Binaryen does not provide binaries for Windows on ARM as of v123
+        tinygo: ['0.36.0', '0.37.0']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.24'
 
       - name: setup-tinygo ${{ matrix.tinygo }}
         uses: ./
         with:
           tinygo-version: ${{ matrix.tinygo }}
-          binaryen-version: '121'
+          binaryen-version: '123'
 
       - name: Verify version
         run: ./check-version.sh ${{ matrix.tinygo }}
@@ -43,12 +48,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.24'
 
       - name: setup-tinygo
         uses: ./
         with:
-          tinygo-version: '0.35.0'
+          tinygo-version: '0.37.0'
           install-binaryen: 'false'
 
       - name: Binaryen not installed
