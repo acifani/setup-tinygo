@@ -6,8 +6,8 @@ import { printCommand } from '../utils';
 import { getArch, getPlatform } from './sys';
 
 const toolName = 'binaryen';
-const arch = getArch();
 const platform = getPlatform();
+const arch = getArch(platform);
 
 export async function installBinaryen(version: string): Promise<void> {
   const installPath = await extract(version);

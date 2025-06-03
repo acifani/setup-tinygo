@@ -10,7 +10,14 @@ export function getPlatform(): string {
   return platformMap[platform] ?? platform;
 }
 
-export function getArch(): string {
+export function getArch(platform: string): string {
   const arch = os.arch();
-  return arch === 'x64' ? 'x86_64' : arch;
+  switch (arch) {
+    case 'arm64':
+      return platform === 'linux' ? 'aarch64' : 'arm64';
+    case 'x64':
+      return 'x86_64';
+    default:
+      return arch;
+  }
 }
