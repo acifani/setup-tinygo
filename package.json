@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc --noEmit && ncc build",
+    "build": "tsc --noEmit && node build.mjs",
     "format": "prettier --write **/*.ts"
   },
   "keywords": [],
@@ -19,7 +19,7 @@
   "devDependencies": {
     "@tsconfig/node24": "^24.0.0",
     "@types/node": "^24.0.0",
-    "@vercel/ncc": "^0.38.4",
+    "esbuild": "^0.28.0",
     "prettier": "^3.8.3",
     "typescript": "^6.0.3"
   }
