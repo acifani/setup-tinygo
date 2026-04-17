@@ -30639,6 +30639,18 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util");
 /******/ }
 /******/ 
 /************************************************************************/
+/******/ /* webpack/runtime/compat get default export */
+/******/ (() => {
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__nccwpck_require__.n = (module) => {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			() => (module['default']) :
+/******/ 			() => (module);
+/******/ 		__nccwpck_require__.d(getter, { a: getter });
+/******/ 		return getter;
+/******/ 	};
+/******/ })();
+/******/ 
 /******/ /* webpack/runtime/create fake namespace object */
 /******/ (() => {
 /******/ 	var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
@@ -34453,30 +34465,33 @@ function _unique(values) {
 //# sourceMappingURL=tool-cache.js.map
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
+var external_node_path_default = /*#__PURE__*/__nccwpck_require__.n(external_node_path_namespaceObject);
 ;// CONCATENATED MODULE: external "node:child_process"
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
-;// CONCATENATED MODULE: ./lib/utils.js
+var external_node_child_process_default = /*#__PURE__*/__nccwpck_require__.n(external_node_child_process_namespaceObject);
+;// CONCATENATED MODULE: ./src/utils.ts
 
 
 function printCommand(command) {
-    const output = external_node_child_process_namespaceObject.execSync(command).toString();
+    const output = external_node_child_process_default().execSync(command).toString();
     info(output);
 }
 
 ;// CONCATENATED MODULE: external "node:os"
 const external_node_os_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:os");
-;// CONCATENATED MODULE: ./lib/binaryen/sys.js
+var external_node_os_default = /*#__PURE__*/__nccwpck_require__.n(external_node_os_namespaceObject);
+;// CONCATENATED MODULE: ./src/binaryen/sys.ts
 
 const platformMap = {
     win32: 'windows',
     darwin: 'macos',
 };
 function getPlatform() {
-    const platform = external_node_os_namespaceObject.platform();
+    const platform = external_node_os_default().platform();
     return platformMap[platform] ?? platform;
 }
 function getArch(platform) {
-    const arch = external_node_os_namespaceObject.arch();
+    const arch = external_node_os_default().arch();
     switch (arch) {
         case 'arm64':
             return platform === 'linux' ? 'aarch64' : 'arm64';
@@ -34487,7 +34502,7 @@ function getArch(platform) {
     }
 }
 
-;// CONCATENATED MODULE: ./lib/binaryen/install.js
+;// CONCATENATED MODULE: ./src/binaryen/install.ts
 
 
 
@@ -34532,25 +34547,25 @@ async function extractArchive(downloadPath) {
 async function addToPath(installDir, version) {
     const binaryen = `binaryen-version_${version}`;
     info(`Adding ${installDir}/${binaryen}/bin to PATH`);
-    addPath(external_node_path_namespaceObject.join(installDir, binaryen, 'bin'));
+    addPath(external_node_path_default().join(installDir, binaryen, 'bin'));
     const found = await findInPath('wasm-opt');
     core_debug(`Found in path: ${found}`);
     const wasmopt = await which('wasm-opt');
     printCommand(`${wasmopt} --version`);
 }
 
-;// CONCATENATED MODULE: ./lib/tinygo/sys.js
+;// CONCATENATED MODULE: ./src/tinygo/sys.ts
 
 function sys_getPlatform() {
-    const platform = external_node_os_namespaceObject.platform();
+    const platform = external_node_os_default().platform();
     return platform === 'win32' ? 'windows' : platform;
 }
 function sys_getArch() {
-    const arch = external_node_os_namespaceObject.arch();
+    const arch = external_node_os_default().arch();
     return arch === 'x64' ? 'amd64' : arch;
 }
 
-;// CONCATENATED MODULE: ./lib/tinygo/install.js
+;// CONCATENATED MODULE: ./src/tinygo/install.ts
 
 
 
@@ -34602,7 +34617,7 @@ async function install_extractArchive(downloadPath) {
 }
 async function install_addToPath(installDir) {
     info(`Adding ${installDir}/tinygo/bin to PATH`);
-    addPath(external_node_path_namespaceObject.join(installDir, 'tinygo', 'bin'));
+    addPath(external_node_path_default().join(installDir, 'tinygo', 'bin'));
     const found = await findInPath('tinygo');
     core_debug(`Found in path: ${found}`);
     const tinygo = await which('tinygo');
@@ -34610,7 +34625,7 @@ async function install_addToPath(installDir) {
     printCommand(`${tinygo} env`);
 }
 
-;// CONCATENATED MODULE: ./lib/index.js
+;// CONCATENATED MODULE: ./src/index.ts
 
 
 

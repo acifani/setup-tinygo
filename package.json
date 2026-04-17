@@ -2,10 +2,10 @@
   "name": "setup-tinygo",
   "version": "1.0.0",
   "description": "Setup TinyGo for GitHub actions",
-  "main": "lib/index.js",
+  "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc && ncc build",
+    "build": "tsc --noEmit && ncc build",
     "format": "prettier --write **/*.ts"
   },
   "keywords": [],
