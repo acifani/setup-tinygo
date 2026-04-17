@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
-import { installBinaryen } from './binaryen/install';
-import { installTinyGo } from './tinygo/install';
+import { installBinaryen } from './binaryen/install.js';
+import { installTinyGo } from './tinygo/install.js';
 
 setup();
 

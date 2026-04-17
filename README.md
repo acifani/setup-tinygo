@@ -14,7 +14,7 @@ steps:
   - uses: actions/checkout@v2
   - uses: acifani/setup-tinygo@v2
     with:
-      tinygo-version: '0.30.0'
+      tinygo-version: '0.40.1'
 ```
 
 ### With matrix expansion
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tinygo: ['0.29.0', '0.30.0']
+        tinygo: ['0.39.0', '0.40.1']
     name: TinyGo ${{ matrix.tinygo }}
     steps:
       - uses: actions/checkout@v2
@@ -48,7 +48,7 @@ steps:
       go-version: 1.21
   - uses: acifani/setup-tinygo@v2
     with:
-      tinygo-version: '0.30.0'
+      tinygo-version: '0.40.1'
 ```
 
 ### With custom Binaryen version
@@ -62,8 +62,8 @@ steps:
   - uses: actions/checkout@v2
   - uses: acifani/setup-tinygo@v2
     with:
-      tinygo-version: '0.30.0'
-      binaryen-version: '116'
+      tinygo-version: '0.40.1'
+      binaryen-version: '129'
 ```
 
 ### Without Binaryen
@@ -75,6 +75,6 @@ steps:
   - uses: actions/checkout@v2
   - uses: acifani/setup-tinygo@v2
     with:
-      tinygo-version: '0.30.0'
+      tinygo-version: '0.40.1'
       install-binaryen: 'false'
 ```
