@@ -15,5 +15,5 @@ inputs:
     description: 'The exact Binaryen version to download and use.'
     default: '116'
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'

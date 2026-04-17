@@ -15,10 +15,10 @@
     "@actions/tool-cache": "^2.0.2"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.2",
-    "@types/node": "^20.8.9",
+    "@tsconfig/node24": "^24.0.0",
+    "@types/node": "^24.0.0",
     "@vercel/ncc": "^0.38.3",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.3"
+    "typescript": "^6.0.3"
   }
 }
