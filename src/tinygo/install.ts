@@ -1,9 +1,9 @@
 import * as core from '@actions/core';
 import * as io from '@actions/io';
 import * as tool from '@actions/tool-cache';
-import path from 'path';
-import { printCommand } from '../utils';
-import { getArch, getPlatform } from './sys';
+import path from 'node:path';
+import { printCommand } from '../utils.js';
+import { getArch, getPlatform } from './sys.js';
 
 const toolName = 'tinygo';
 const arch = getArch();

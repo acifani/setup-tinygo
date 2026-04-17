@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Setup TinyGo for GitHub actions",
   "main": "lib/index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc && ncc build",
     "format": "prettier --write **/*.ts"
@@ -11,13 +12,13 @@
   "author": "Alessandro Cifani <alessandro.cifani@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/tool-cache": "^2.0.2"
+    "@actions/core": "^3.0.0",
+    "@actions/tool-cache": "^4.0.0"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.0",
     "@types/node": "^24.0.0",
-    "@vercel/ncc": "^0.38.3",
+    "@vercel/ncc": "^0.38.4",
     "prettier": "^3.5.3",
     "typescript": "^6.0.3"
   }

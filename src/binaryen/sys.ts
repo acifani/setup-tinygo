@@ -1,4 +1,4 @@
-import os from 'os';
+import os from 'node:os';
 
 const platformMap: Record<string, string> = {
   win32: 'windows',
