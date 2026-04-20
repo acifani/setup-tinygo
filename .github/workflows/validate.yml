@@ -17,7 +17,7 @@ jobs:
           - ubuntu-latest
           - ubuntu-24.04-arm
           - windows-latest
-          # - windows-11-arm - Binaryen does not provide binaries for Windows on ARM as of v123
+          # - windows-11-arm - TinyGo does not provide binaries for Windows on ARM as of v0.40.1
         tinygo: ['0.39.0', '0.40.1']
     steps:
       - uses: actions/checkout@v5

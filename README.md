@@ -5,7 +5,7 @@
 
 This action sets up a TinyGo environment for GitHub Actions.
 
-Supported runners: `ubuntu-latest`, `macos-latest`, `windows-latest`.
+Supported runners: `ubuntu-latest`, `ubuntu-24.04-arm`, `macos-latest`, `windows-latest`.
 
 ## Inputs
 
