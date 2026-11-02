@@ -53,10 +53,9 @@ async function extractArchive(downloadPath: string): Promise<string> {
 
 async function addToPath(installDir: string, version: string) {
   const binaryen = `binaryen-version_${version}`;
+  const binDir = path.join(installDir, binaryen, 'bin');
+  const wasmopt = await io.which(path.join(binDir, 'wasm-opt'), true);
   core.info(`Adding ${installDir}/${binaryen}/bin to PATH`);
-  core.addPath(path.join(installDir, binaryen, 'bin'));
-  const found = await io.findInPath('wasm-opt');
-  core.debug(`Found in path: ${found}`);
-  const wasmopt = await io.which('wasm-opt');
+  core.addPath(binDir);
   printCommand(`${wasmopt} --version`);
 }

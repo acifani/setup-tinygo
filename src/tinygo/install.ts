@@ -60,11 +60,10 @@ async function extractArchive(downloadPath: string): Promise<string> {
 }
 
 async function addToPath(installDir: string) {
+  const binDir = path.join(installDir, 'tinygo', 'bin');
+  const tinygo = await io.which(path.join(binDir, 'tinygo'), true);
   core.info(`Adding ${installDir}/tinygo/bin to PATH`);
-  core.addPath(path.join(installDir, 'tinygo', 'bin'));
-  const found = await io.findInPath('tinygo');
-  core.debug(`Found in path: ${found}`);
-  const tinygo = await io.which('tinygo');
+  core.addPath(binDir);
   printCommand(`${tinygo} version`);
   printCommand(`${tinygo} env`);
 }

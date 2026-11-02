@@ -34806,11 +34806,10 @@ async function extractArchive(downloadPath) {
 }
 async function addToPath(installDir, version) {
     const binaryen = `binaryen-version_${version}`;
+    const binDir = external_node_path_default().join(installDir, binaryen, 'bin');
+    const wasmopt = await which(external_node_path_default().join(binDir, 'wasm-opt'), true);
     info(`Adding ${installDir}/${binaryen}/bin to PATH`);
-    addPath(external_node_path_default().join(installDir, binaryen, 'bin'));
-    const found = await findInPath('wasm-opt');
-    core_debug(`Found in path: ${found}`);
-    const wasmopt = await which('wasm-opt');
+    addPath(binDir);
     printCommand(`${wasmopt} --version`);
 }
 
@@ -34876,11 +34875,10 @@ async function install_extractArchive(downloadPath) {
     return extractedPath;
 }
 async function install_addToPath(installDir) {
+    const binDir = external_node_path_default().join(installDir, 'tinygo', 'bin');
+    const tinygo = await which(external_node_path_default().join(binDir, 'tinygo'), true);
     info(`Adding ${installDir}/tinygo/bin to PATH`);
-    addPath(external_node_path_default().join(installDir, 'tinygo', 'bin'));
-    const found = await findInPath('tinygo');
-    core_debug(`Found in path: ${found}`);
-    const tinygo = await which('tinygo');
+    addPath(binDir);
     printCommand(`${tinygo} version`);
     printCommand(`${tinygo} env`);
 }
