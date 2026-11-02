@@ -3,6 +3,7 @@ import * as io from '@actions/io';
 import * as tool from '@actions/tool-cache';
 import path from 'node:path';
 import { printCommand } from '../utils.js';
+import { validateTinyGoVersion } from '../versions.js';
 import { getArch, getPlatform } from './sys.js';
 
 const toolName = 'tinygo';
@@ -10,6 +11,7 @@ const arch = getArch();
 const platform = getPlatform();
 
 export async function installTinyGo(version: string): Promise<void> {
+  validateTinyGoVersion(version);
   const installPath = await extract(version);
   return addToPath(installPath);
 }

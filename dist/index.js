@@ -34737,6 +34737,18 @@ function printCommand(command) {
     info(output);
 }
 
+;// CONCATENATED MODULE: ./src/versions.ts
+function validateTinyGoVersion(version) {
+    if (!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version)) {
+        throw new Error('tinygo-version must be an exact version in X.Y.Z format');
+    }
+}
+function validateBinaryenVersion(version) {
+    if (!/^[1-9]\d*$/.test(version)) {
+        throw new Error('binaryen-version must be a positive integer');
+    }
+}
+
 ;// CONCATENATED MODULE: external "node:os"
 const external_node_os_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:os");
 var external_node_os_default = /*#__PURE__*/__nccwpck_require__.n(external_node_os_namespaceObject);
@@ -34769,10 +34781,12 @@ function getArch(platform) {
 
 
 
+
 const toolName = 'binaryen';
 const install_platform = getPlatform();
 const install_arch = getArch(install_platform);
 async function installBinaryen(version) {
+    validateBinaryenVersion(version);
     const installPath = await extract(version);
     return addToPath(installPath, version);
 }
@@ -34832,10 +34846,12 @@ function sys_getArch() {
 
 
 
+
 const install_toolName = 'tinygo';
 const tinygo_install_arch = sys_getArch();
 const tinygo_install_platform = sys_getPlatform();
 async function installTinyGo(version) {
+    validateTinyGoVersion(version);
     const installPath = await install_extract(version);
     return install_addToPath(installPath);
 }

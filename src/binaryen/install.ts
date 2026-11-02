@@ -3,6 +3,7 @@ import * as io from '@actions/io';
 import * as tool from '@actions/tool-cache';
 import path from 'node:path';
 import { printCommand } from '../utils.js';
+import { validateBinaryenVersion } from '../versions.js';
 import { getArch, getPlatform } from './sys.js';
 
 const toolName = 'binaryen';
@@ -10,6 +11,7 @@ const platform = getPlatform();
 const arch = getArch(platform);
 
 export async function installBinaryen(version: string): Promise<void> {
+  validateBinaryenVersion(version);
   const installPath = await extract(version);
   return addToPath(installPath, version);
 }
