@@ -29,6 +29,9 @@ jobs:
       - name: Rebuild the dist/ directory
         run: npm run build
 
+      - name: Test regressions
+        run: node --test test/*.test.mjs
+
       - name: Compare the expected and actual dist/ directories
         run: |
           if [ "$(git diff --ignore-space-at-eol dist/ | wc -l)" -gt "0" ]; then
