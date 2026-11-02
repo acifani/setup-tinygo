@@ -34732,8 +34732,8 @@ var external_node_child_process_default = /*#__PURE__*/__nccwpck_require__.n(ext
 ;// CONCATENATED MODULE: ./src/utils.ts
 
 
-function printCommand(command) {
-    const output = external_node_child_process_default().execSync(command).toString();
+function printCommand(executable, args) {
+    const output = external_node_child_process_default().execFileSync(executable, args).toString();
     info(output);
 }
 
@@ -34811,7 +34811,7 @@ async function addToPath(installDir, version) {
     const found = await findInPath('wasm-opt');
     core_debug(`Found in path: ${found}`);
     const wasmopt = await which('wasm-opt');
-    printCommand(`${wasmopt} --version`);
+    printCommand(wasmopt, ['--version']);
 }
 
 ;// CONCATENATED MODULE: ./src/tinygo/sys.ts
@@ -34881,8 +34881,8 @@ async function install_addToPath(installDir) {
     const found = await findInPath('tinygo');
     core_debug(`Found in path: ${found}`);
     const tinygo = await which('tinygo');
-    printCommand(`${tinygo} version`);
-    printCommand(`${tinygo} env`);
+    printCommand(tinygo, ['version']);
+    printCommand(tinygo, ['env']);
 }
 
 ;// CONCATENATED MODULE: ./src/index.ts

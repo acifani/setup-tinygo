@@ -65,6 +65,6 @@ async function addToPath(installDir: string) {
   const found = await io.findInPath('tinygo');
   core.debug(`Found in path: ${found}`);
   const tinygo = await io.which('tinygo');
-  printCommand(`${tinygo} version`);
-  printCommand(`${tinygo} env`);
+  printCommand(tinygo, ['version']);
+  printCommand(tinygo, ['env']);
 }

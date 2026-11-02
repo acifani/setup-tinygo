@@ -58,5 +58,5 @@ async function addToPath(installDir: string, version: string) {
   const found = await io.findInPath('wasm-opt');
   core.debug(`Found in path: ${found}`);
   const wasmopt = await io.which('wasm-opt');
-  printCommand(`${wasmopt} --version`);
+  printCommand(wasmopt, ['--version']);
 }
