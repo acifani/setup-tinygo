@@ -5,9 +5,22 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-tinygo_version="$(tinygo version)"
+if ! tinygo_version="$(tinygo version)"; then
+  echo "Unable to read tinygo version"
+  exit 1
+fi
 echo "Found tinygo version '$tinygo_version'"
-if [ -z "$(echo $tinygo_version | grep $1)" ]; then
+case "$tinygo_version" in
+  "tinygo version "*)
+    actual_version=${tinygo_version#tinygo version }
+    actual_version=${actual_version%% *}
+    ;;
+  *)
+    echo "Unexpected version output"
+    exit 1
+    ;;
+esac
+if [ "$actual_version" != "$1" ]; then
   echo "Unexpected version"
   exit 1
 fi
