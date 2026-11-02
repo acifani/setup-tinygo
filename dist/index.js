@@ -34777,8 +34777,9 @@ async function installBinaryen(version) {
     return addToPath(installPath, version);
 }
 async function extract(version) {
+    const cacheVersion = `${version}.0.0`;
     core_debug(`Checking cache for binaryen v${version} ${install_arch}`);
-    const cachedDirectory = find(toolName, version, install_arch);
+    const cachedDirectory = find(toolName, cacheVersion, install_arch);
     if (cachedDirectory) {
         // tool version found in cache
         return cachedDirectory;
@@ -34787,7 +34788,7 @@ async function extract(version) {
     try {
         const downloadPath = await download(version);
         const extractedPath = await extractArchive(downloadPath);
-        const cachedPath = await cacheDir(extractedPath, toolName, version, install_arch);
+        const cachedPath = await cacheDir(extractedPath, toolName, cacheVersion, install_arch);
         return cachedPath;
     }
     catch (error) {

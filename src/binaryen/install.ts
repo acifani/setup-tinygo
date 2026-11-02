@@ -15,8 +15,9 @@ export async function installBinaryen(version: string): Promise<void> {
 }
 
 async function extract(version: string): Promise<string> {
+  const cacheVersion = `${version}.0.0`;
   core.debug(`Checking cache for binaryen v${version} ${arch}`);
-  const cachedDirectory = tool.find(toolName, version, arch);
+  const cachedDirectory = tool.find(toolName, cacheVersion, arch);
   if (cachedDirectory) {
     // tool version found in cache
     return cachedDirectory;
@@ -29,7 +30,7 @@ async function extract(version: string): Promise<string> {
     const cachedPath = await tool.cacheDir(
       extractedPath,
       toolName,
-      version,
+      cacheVersion,
       arch,
     );
 
